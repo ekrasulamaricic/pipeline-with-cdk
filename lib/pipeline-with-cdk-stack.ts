@@ -14,14 +14,14 @@ export class PipelineWithCdkStack extends Stack {
     super(scope, id, props);
 
     // The Lambda function that contains the functionality
-    const handler = new lambda.Function(scope, 'Lambda', {
+    const handler = new lambda.Function(this, 'Lambda', {
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'handler.handler',
       code: lambda.Code.fromAsset(path.resolve(__dirname, 'lambda')),
     });
 
     // An API Gateway to make the Lambda web-accessible
-    const gw = new gateway.LambdaRestApi(scope, 'Gateway', {
+    const gw = new gateway.LambdaRestApi(this, 'Gateway', {
       description: 'Endpoint for a simple Lambda-powered web service',
       handler,
     });

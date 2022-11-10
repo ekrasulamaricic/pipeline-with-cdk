@@ -11,7 +11,7 @@ export class PipelineWithCdkStage extends Stage {
     constructor(scope: Construct, id: string, props?: StageProps) {
         super(scope, id, props);
 
-        const service = new PipelineWithCdkStack(scope, 'WebService');
+        const service = new PipelineWithCdkStack(this, 'WebService');
 
         // Expose PipelineWithCdkStage's output one level higher
         this.urlOutput = service.urlOutput;
