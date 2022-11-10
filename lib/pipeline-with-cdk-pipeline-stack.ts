@@ -14,7 +14,7 @@ export class PipelineWithCdkPipelineStack extends Stack {
       // How it will be built and synthesized
       synth: new ShellStep('Synth', {
         // Where the source can be found
-        input: CodePipelineSource.gitHub('ekrasulamaricic/ci-cd-aws-pipeline', 'main'),
+        input: CodePipelineSource.gitHub('ekrasulamaricic/pipeline-with-cdk', 'main'),
 
         // Install dependencies, build and run cdk synth
         commands: [
