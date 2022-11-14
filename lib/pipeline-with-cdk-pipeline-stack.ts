@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { Stack, StackProps} from "aws-cdk-lib";
-import {CodePipeline, ShellStep, CodePipelineSource} from "aws-cdk-lib/pipelines";
+import {CodePipeline, ShellStep, CodePipelineSource, ManualApprovalStep} from "aws-cdk-lib/pipelines";
 import {PipelineWithCdkStage} from "./pipeline-with-cdk-stage";
 
 export class PipelineWithCdkPipelineStack extends Stack {
@@ -27,6 +27,14 @@ export class PipelineWithCdkPipelineStack extends Stack {
     });
 
     // This is where we add the application stages
+    const testingStage = pipeline.addStage(new PipelineWithCdkStage(this, "test", {
+      env: {account: "824731037889", region: "eu-central-1"}
+    }));
+
+
+    testingStage.addPre(new ShellStep("Run Unit Tests", {commands: ['npm install', 'npm test']}));
+    testingStage.addPost(new ManualApprovalStep('Manual approval before production'));
+
 
     const preprod = new PipelineWithCdkStage(this, 'PreProd', {
       env: {account: '824731037889', region: 'eu-central-1'}
